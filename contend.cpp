@@ -29,10 +29,11 @@ int main(int argc, char** argv) {
         }
     }
 
-    set<string> symbols;
+    set<string> symbolsA;
+    set<string> symbolsB;
     map<string*, map<string*, int> > contingency;
 
-    long int lineno;
+    long int lineno = 0;
     string line;
     while (getline(cin, line)) {
         ++lineno;
@@ -43,19 +44,20 @@ int main(int argc, char** argv) {
                  << "does not have 2 tab-delimited fields" << endl;
             return 1;
         }
-        string* a = getSymbolPtr(fields.front(), symbols);
-        string* b = getSymbolPtr(fields.back(), symbols);
+        string* a = getSymbolPtr(fields.front(), symbolsA);
+        string* b = getSymbolPtr(fields.back(), symbolsB);
         ++contingency[a][b];
     }
 
-    for (set<string>::iterator a = symbols.begin(); a != symbols.end(); ++a) {
-        cerr << "\t" << *a;
+    cout << ".";
+    for (set<string>::iterator a = symbolsB.begin(); a != symbolsB.end(); ++a) {
+        cout << "\t" << *a;
     }
-    cerr << endl;
-    for (set<string>::iterator a = symbols.begin(); a != symbols.end(); ++a) {
-        cerr << *a;
-        for (set<string>::iterator b = symbols.begin(); ; ++b) {
-            if (b == symbols.end()) { cout << "\n"; break; }
+    cout << endl;
+    for (set<string>::iterator a = symbolsA.begin(); a != symbolsA.end(); ++a) {
+        cout << *a;
+        for (set<string>::iterator b = symbolsB.begin(); ; ++b) {
+            if (b == symbolsB.end()) { cout << "\n"; break; }
             cout << "\t" << contingency[(string*)&*a][(string*)&*b];
         }
     }
